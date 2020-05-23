@@ -54,19 +54,14 @@ def translit_element(line):
             result += str(new_sym)
     return result
 
-print('translit def ok')
-
 filename = 'C:\Desktop\\volkovdict\\volkov_texts.xml'
 filename_out = 'C:\Desktop\\volkovdict\\volkov_texts_out.xml'
 
 def translit_file(filename, filename_out):
         tree = ET.parse(filename)
         root = tree.getroot()
-        for element in root.findall("./word[@lang='itl']"):
+        for element in root.findall(".//item[@lang='itl']"):
             element.text = translit_element(element.text)
-
-print('translit file def ok')
+        tree.write(filename_out, encoding='utf-8')
 
 translit_file(filename, filename_out)
-
-print('translit file trial ok')
