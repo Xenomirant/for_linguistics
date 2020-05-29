@@ -1,0 +1,29 @@
+import xml.etree.ElementTree as ET
+
+filename = 'C:\Desktop\RNC\\ckt.xml_out.xml'
+filename_out = 'C:\Desktop\RNC\\09175.ckt-rus'
+
+# удаляет тэги о весе строк
+def weight_del(filename, filename_out):
+    tree = ET.parse(filename)
+    root = tree.getroot()
+    for parent in root.findall('.//para'):
+        weight = parent.find('./weight')
+        parent.remove(weight)
+    tree.write(filename_out, encoding='utf-8')
+
+# переименовывает аттрибуты тэга язык
+def tag_change(filename, filename_out):
+    tree = ET.parse(filename)
+    root = tree.getroot()
+    for elem in tree.findall('.//se'):
+        if elem.attrib['variant_id'] == '0':
+            elem.attrib['lang'] = 'ckt'
+        if elem.attrib['variant_id'] == '1':
+            elem.attrib['lang'] = 'rus'
+        del elem.attrib['variant_id']
+    tree.write(filename_out, encoding='utf-8')
+
+
+weight_del(filename, filename_out)
+tag_change(filename_out, filename_out)
