@@ -1,0 +1,47 @@
+import xml.etree.ElementTree as ET
+import sys
+
+def shift_blocks(filename, from_id, to_id):
+    old_from_id = from_id
+    tree = ET.parse(filename)
+    all_para = tree.findall('body/para')
+    para_to = None
+    para_from = None
+    is_to_continue = True
+
+    for para_i in all_para:
+        if int(para_i.attrib['id']) == to_id:
+            para_to = para_i
+
+        for para_j in all_para:
+            if int(para_j.attrib['id']) == from_id:
+                para_from = para_j
+            if para_to and para_from:
+                print(to_id, from_id)
+                se_to = list(para_to)[1]
+                se_from = list(para_from)[1]
+                se_to.text = se_from.text
+                se_from.text = None
+                to_id += 1
+                from_id += 1
+                para_to = None
+                para_from = None
+                if to_id >= old_from_id:
+                    is_to_continue = False
+                    break
+        if not is_to_continue:
+            break
+    tree.write(filename+'_out.xml', encoding='utf-8')
+
+def main():
+    if len(sys.argv) < 4:
+        print("usage: euclid_helper.py <filename> <from_id> <to_id>")
+        return
+    filename = sys.argv[1]
+    from_id = int(sys.argv[2])
+    to_id = int(sys.argv[3])
+    print("processing %s" % filename)
+    shift_blocks(filename, from_id, to_id)
+
+if __name__ == "__main__":
+    main()
