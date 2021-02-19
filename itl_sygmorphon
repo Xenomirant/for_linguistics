@@ -11,16 +11,12 @@ def xml_to_csv(filename, filename_out):
     root = tree.getroot()
     for morph in root.findall(".//morphemes/morph[@type='stem']/item[@type='txt']") and word in root.findall(".//word/item"):
         line = morph + '\t' + word
-    for circumfix_gloss in root.findall(".//morphemes/morph[@type='circumfix']/item[@type='gls']")\
-            and prefix_gloss in root.findall(".//morphemes/morph[@type='prefix']/item[@type='gls']")\
-            and suffix_gloss in root.findall(".//morphemes/morph[@type='suffix']/item[@type='gls']"):
-        gloss = circumfix_gloss + ';' + prefix_gloss + ';' + suffix_gloss
-        line = line + '\t' + gloss
+        for circumfix_gloss in root.findall(".//morphemes/morph[@type='circumfix']/item[@type='gls']")\
+                and prefix_gloss in root.findall(".//morphemes/morph[@type='prefix']/item[@type='gls']")\
+                and suffix_gloss in root.findall(".//morphemes/morph[@type='suffix']/item[@type='gls']"):
+            gloss = circumfix_gloss + ';' + prefix_gloss + ';' + suffix_gloss
+            line = line + '\t' + gloss
     result = open(filename_out, 'w', encoding='utf-8')
     with result:
     writer = csv.writer(result)
     writer.writerows(line)
-
-
-
-
