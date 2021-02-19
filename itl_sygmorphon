@@ -4,19 +4,24 @@ import csv
 filename = 'D:\\uusi_kansio\glossed_texts.xml'
 filename_out = 'D:\\uusi_kansio\itl_extraction.csv'
 
-line = ''
-
 def xml_to_csv(filename, filename_out):
     tree = ET.parse(filename)
     root = tree.getroot()
-    for morph in root.findall(".//morphemes/morph[@type='stem']/item[@type='txt']") and word in root.findall(".//word/item"):
-        line = morph + '\t' + word
-        for circumfix_gloss in root.findall(".//morphemes/morph[@type='circumfix']/item[@type='gls']")\
-                and prefix_gloss in root.findall(".//morphemes/morph[@type='prefix']/item[@type='gls']")\
-                and suffix_gloss in root.findall(".//morphemes/morph[@type='suffix']/item[@type='gls']"):
-            gloss = circumfix_gloss + ';' + prefix_gloss + ';' + suffix_gloss
-            line = line + '\t' + gloss
-    result = open(filename_out, 'w', encoding='utf-8')
-    with result:
-        writer = csv.writer(result)
-        writer.writerows(line)
+    for lemma in root.findall(".//words/word"):
+       for stem in lemma.findall(".//morphemes/morph[@type='stem']/item[@type='txt']"):
+           for gloss in lemma.findall(".//morphemes/morph"):
+               if gloss.attrib['type'] in ['circumfix','prefix','suffix']:
+                    gloss = gloss.find("item[@type='gls']").text
+               # elif gloss.attrib['type'] in ['stem']:
+               #      gloss = gloss.find("item[@type='msa']").text
+                    print(gloss)
+
+                #gloss = circumfix_gloss + ';' + prefix_gloss + ';' + suffix_gloss
+xml_to_csv(filename, filename_out)
+
+            # line = str(morph) + '\t' + word
+            # line = line + '\t' + gloss
+# result = open(filename_out, 'w', encoding='utf-8')
+# with result:
+#         writer = csv.writer(result)
+#         writer.writerows(result)
