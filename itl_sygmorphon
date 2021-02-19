@@ -1,8 +1,10 @@
 import xml.etree.ElementTree as ET
+import csv
 
 filename = 'D:\\uusi_kansio\glossed_texts.xml'
 filename_out = 'D:\\uusi_kansio\itl_extraction.csv'
 
+line = ''
 
 def xml_to_csv(filename, filename_out):
     tree = ET.parse(filename)
@@ -14,6 +16,11 @@ def xml_to_csv(filename, filename_out):
             and suffix_gloss in root.findall(".//morphemes/morph[@type='suffix']/item[@type='gls']"):
         gloss = circumfix_gloss + ';' + prefix_gloss + ';' + suffix_gloss
         line = line + '\t' + gloss
-    line.write(filename_out, encoding='utf-8')
+    result = open(filename_out, 'w', encoding='utf-8')
+    with result:
+    writer = csv.writer(result)
+    writer.writerows(line)
+
+
 
 
