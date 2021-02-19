@@ -1,0 +1,19 @@
+import xml.etree.ElementTree as ET
+
+filename = 'D:\\uusi_kansio\glossed_texts.xml'
+filename_out = 'D:\\uusi_kansio\itl_extraction.csv'
+
+
+def xml_to_csv(filename, filename_out):
+    tree = ET.parse(filename)
+    root = tree.getroot()
+    for morph in root.findall(".//morphemes/morph[@type='stem']/item[@type='txt']") and word in root.findall(".//word/item"):
+        line = morph + '\t' + word
+    for circumfix_gloss in root.findall(".//morphemes/morph[@type='circumfix']/item[@type='gls']")\
+            and prefix_gloss in root.findall(".//morphemes/morph[@type='prefix']/item[@type='gls']")\
+            and suffix_gloss in root.findall(".//morphemes/morph[@type='suffix']/item[@type='gls']"):
+        gloss = circumfix_gloss + ';' + prefix_gloss + ';' + suffix_gloss
+        line = line + '\t' + gloss
+    line.write(filename_out, encoding='utf-8')
+
+
