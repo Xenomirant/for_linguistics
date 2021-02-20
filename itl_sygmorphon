@@ -29,7 +29,6 @@ def xml_to_csv(filename, filename_out):
                 #     for j in GLOSS:
                 #         dict[LEMMA] = GLOSS
                 # print(dict)
-                # print(stem.text, '\t', LEMMA, '\t', GLOSS)
 
                 # with open(filename_out, "w", newline="") as file:
                 #     columns = [STEM, LEMMA, GLOSS]
