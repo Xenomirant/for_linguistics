@@ -4,6 +4,9 @@ import csv
 filename = 'D:\\uusi_kansio\glossed_texts.xml'
 filename_out = 'D:\\uusi_kansio\itl_extraction.csv'
 
+keys = []
+values = []
+
 def xml_to_csv(filename, filename_out):
     tree = ET.parse(filename)
     root = tree.getroot()
@@ -11,11 +14,26 @@ def xml_to_csv(filename, filename_out):
         for stem in lemma.findall(".//morphemes/morph[@type='stem']/item[@type='txt']"):
             for gloss in lemma.findall(".//morphemes/morph"):
                 if gloss.attrib['type'] in ['circumfix', 'prefix', 'suffix', 'enclitic']:
-                    gloss_line = gloss.find("item[@type='gls']").text
+                    GLOSS = gloss.find("item[@type='gls']").text
                 elif gloss.attrib['type'] in ['stem']:
-                    gloss_line = gloss.find("item[@type='msa']").text
+                    GLOSS = gloss.find("item[@type='msa']").text
                 else:
-                    pass
-                print(stem.text, '\t', lemma.find("item[@type='txt']").text, '\t', gloss_line)
+                    GLOSS = '0'
+
+                STEM = stem.text
+                LEMMA = lemma.find("item[@type='txt']").text
+                print(STEM, LEMMA, GLOSS)
+
+                # with open(filename_out, "w", newline="") as file:
+                #     columns = [STEM, LEMMA, GLOSS]
+                #     writer = csv.DictWriter(file, fieldnames=columns)
+                #     writer.writerows(columns)
+                #     file.close()
+
+                # for i in LEMMA:
+                #     for j in GLOSS:
+                #         dict[LEMMA] = GLOSS
+                # print(dict)
+                # print(stem.text, '\t', LEMMA, '\t', GLOSS)
 
 xml_to_csv(filename, filename_out)
