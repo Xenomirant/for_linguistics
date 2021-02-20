@@ -8,20 +8,14 @@ def xml_to_csv(filename, filename_out):
     tree = ET.parse(filename)
     root = tree.getroot()
     for lemma in root.findall(".//words/word"):
-       for stem in lemma.findall(".//morphemes/morph[@type='stem']/item[@type='txt']"):
-           for gloss in lemma.findall(".//morphemes/morph"):
-               if gloss.attrib['type'] in ['circumfix','prefix','suffix']:
+        for stem in lemma.findall(".//morphemes/morph[@type='stem']/item[@type='txt']"):
+            for gloss in lemma.findall(".//morphemes/morph"):
+                if gloss.attrib['type'] in ['circumfix', 'prefix', 'suffix', 'enclitic']:
                     gloss = gloss.find("item[@type='gls']").text
-               # elif gloss.attrib['type'] in ['stem']:
-               #      gloss = gloss.find("item[@type='msa']").text
-                    print(gloss)
+                elif gloss.attrib['type'] in ['stem']:
+                    gloss = gloss.find("item[@type='msa']").text
+                else:
+                    pass
+                print(stem.text, '\t', lemma.find("item[@type='txt']").text, '\t', gloss)
 
-                #gloss = circumfix_gloss + ';' + prefix_gloss + ';' + suffix_gloss
 xml_to_csv(filename, filename_out)
-
-            # line = str(morph) + '\t' + word
-            # line = line + '\t' + gloss
-# result = open(filename_out, 'w', encoding='utf-8')
-# with result:
-#         writer = csv.writer(result)
-#         writer.writerows(result)
