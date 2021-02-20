@@ -11,11 +11,11 @@ def xml_to_csv(filename, filename_out):
         for stem in lemma.findall(".//morphemes/morph[@type='stem']/item[@type='txt']"):
             for gloss in lemma.findall(".//morphemes/morph"):
                 if gloss.attrib['type'] in ['circumfix', 'prefix', 'suffix', 'enclitic']:
-                    gloss = gloss.find("item[@type='gls']").text
+                    gloss_line = gloss.find("item[@type='gls']").text
                 elif gloss.attrib['type'] in ['stem']:
-                    gloss = gloss.find("item[@type='msa']").text
+                    gloss_line = gloss.find("item[@type='msa']").text
                 else:
                     pass
-                print(stem.text, '\t', lemma.find("item[@type='txt']").text, '\t', gloss)
+                print(stem.text, '\t', lemma.find("item[@type='txt']").text, '\t', gloss_line)
 
 xml_to_csv(filename, filename_out)
