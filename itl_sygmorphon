@@ -24,16 +24,17 @@ def xml_to_csv(filename, filename_out):
                 LEMMA = lemma.find("item[@type='txt']").text
                 print(STEM, LEMMA, GLOSS)
 
-                # with open(filename_out, "w", newline="") as file:
-                #     columns = [STEM, LEMMA, GLOSS]
-                #     writer = csv.DictWriter(file, fieldnames=columns)
-                #     writer.writerows(columns)
-                #     file.close()
-
+                
                 # for i in LEMMA:
                 #     for j in GLOSS:
                 #         dict[LEMMA] = GLOSS
                 # print(dict)
                 # print(stem.text, '\t', LEMMA, '\t', GLOSS)
+
+                # with open(filename_out, "w", newline="") as file:
+                #     columns = [STEM, LEMMA, GLOSS]
+                #     writer = csv.DictWriter(file, fieldnames=columns)
+                #     writer.writerows(columns)
+                #     file.close()
 
 xml_to_csv(filename, filename_out)
