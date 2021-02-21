@@ -6,7 +6,7 @@ my_dict = dict()
 keys = []
 values = []
 
-def xml_to_csv(filename, filename_out):
+def from_xml(filename):
     tree = ET.parse(filename)
     root = tree.getroot()
     for lemma in root.findall(".//words/word"):
@@ -28,4 +28,4 @@ def xml_to_csv(filename, filename_out):
                     my_dict[wordform]['glosses'] = {GLOSS}
                 print(my_dict)
 
-xml_to_csv(filename)
+from_xml(filename)
